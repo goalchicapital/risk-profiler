@@ -1,0 +1,568 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Risk Profiler (Premium) | Goalchi Capital</title>
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e5e7eb;
+      --brand:#0b2d5b; --brand2:#0f3d78; --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:16px; --danger:#8a1f17; --dangerBg:#fdecec; --dangerBd:#f3b1ac;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--text)}
+    header{background:#fff;border-bottom:1px solid var(--border)}
+    .header-inner{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .brand-left{display:flex;align-items:center;gap:12px;min-width:220px}
+    .brand-left img{height:34px;width:auto;display:block}
+    .brand-title{display:flex;flex-direction:column;gap:2px}
+    .brand-title b{font-size:14px;letter-spacing:.2px}
+    .brand-title span{font-size:12px;color:var(--muted)}
+    .brand-right{font-weight:800;color:var(--brand);letter-spacing:.2px}
+
+    main{max-width:1100px;margin:24px auto 56px;padding:0 16px}
+    .shell{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero{padding:26px 26px 18px;border-bottom:1px solid var(--border)}
+    .hero h1{margin:0 0 10px;font-size:28px;letter-spacing:-.3px}
+    .hero p{margin:0;color:var(--muted);max-width:78ch}
+
+    .progress-wrap{padding:16px 26px 0}
+    .progress-rail{height:10px;background:#edf2f7;border-radius:999px;overflow:hidden;border:1px solid #e6edf7}
+    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:999px;transition:width .25s ease}
+    .step-label{margin-top:10px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:10px}
+
+    .banner-error{display:none;margin:14px 26px 0;padding:10px 12px;border-radius:12px;background:var(--dangerBg);color:var(--danger);border:1px solid var(--dangerBd);font-weight:800}
+    .content{padding:18px 26px 26px}
+    .step{display:none}
+    .step.active{display:block}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:820px){.grid{grid-template-columns:1fr}}
+    label{font-size:13px;color:#111827;font-weight:800}
+    .field{display:flex;flex-direction:column;gap:6px}
+    input[type="text"], input[type="email"], input[type="tel"]{
+      padding:12px;border:1px solid var(--border);border-radius:12px;font-size:14px;outline:none
+    }
+    input:focus{border-color:#c7d2fe;box-shadow:0 0 0 4px rgba(99,102,241,.10)}
+
+    .question{border:1px solid var(--border);border-radius:14px;padding:14px 14px 8px;background:#fff;margin:12px 0}
+    .q-title{margin:0 0 8px;font-weight:950;font-size:14px;letter-spacing:-.1px}
+    .q-sub{margin:0 0 10px;color:var(--muted);font-size:12px}
+    .options{display:grid;gap:8px;margin-bottom:8px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid #eef2f7;border-radius:12px;cursor:pointer}
+    .opt:hover{border-color:#dbeafe}
+    .opt input{margin-top:2px}
+    .opt span{color:#111827;font-size:14px}
+
+    .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px}
+    .btn{border:0;border-radius:12px;padding:12px 14px;font-weight:950;cursor:pointer;font-size:14px}
+    .btn-primary{background:linear-gradient(180deg,var(--brand),#08244a);color:#fff;min-width:160px;box-shadow:0 10px 18px rgba(11,45,91,.18)}
+    .btn-secondary{background:#eef2f7;color:#111827;min-width:120px}
+    .btn[disabled]{opacity:.6;cursor:not-allowed}
+
+    .submit-row{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+    .loading-row{display:none;align-items:center;gap:10px;color:var(--muted);font-weight:800}
+    .spinner{width:18px;height:18px;border:3px solid rgba(15,23,42,.15);border-top-color:rgba(15,23,42,.55);border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .fineprint{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.5;background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:12px}
+    footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 10px 0}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand-left">
+      <img src="assets/logo.png" alt="Goalchi Capital logo" />
+      <div class="brand-title">
+        <b>Goalchi Capital</b>
+        <span>Risk Profiler (Premium)</span>
+      </div>
+    </div>
+    <div class="brand-right">Goalchi Capital Services LLP</div>
+  </div>
+</header>
+
+<main>
+  <div class="shell">
+    <div class="hero">
+      <h1>Risk Profiling Assessment</h1>
+      <p>
+        To help us tailor advice appropriately, we’ll ask a short set of questions about your <b>risk capacity</b> and <b>risk tolerance</b>.
+        Your indicative profile and allocation will be shown after submission, and a full report will be emailed to you.
+      </p>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-rail"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="step-label">
+        <span id="stepLabelLeft">Step 1 of 5</span>
+        <span id="stepLabelRight">Welcome</span>
+      </div>
+    </div>
+
+    <div class="banner-error" id="stepError"></div>
+
+    <div class="content">
+      <form id="riskForm">
+        <section class="step active" id="step0">
+          <h2 style="margin:0 0 10px;font-size:18px;">Welcome</h2>
+          <p style="margin:0 0 14px;color:var(--muted);">
+            Your responses are confidential and used for suitability and portfolio alignment.
+          </p>
+          <div class="fineprint">
+            <b>Note:</b> This assessment supports a suitability discussion and does not constitute investment advice.
+          </div>
+          <div class="actions">
+            <div></div>
+            <button class="btn btn-primary" type="button" onclick="nextStep()">Begin</button>
+          </div>
+        </section>
+
+        <section class="step" id="step1">
+          <h2 style="margin:0 0 10px;font-size:18px;">Client details</h2>
+          <p style="margin:0 0 14px;color:var(--muted);">So we can share next steps securely.</p>
+
+          <div class="grid">
+            <div class="field">
+              <label for="clientName">Full name</label>
+              <input id="clientName" name="clientName" type="text" required />
+            </div>
+            <div class="field">
+              <label for="clientEmail">Email address</label>
+              <input id="clientEmail" name="clientEmail" type="email" required />
+            </div>
+            <div class="field">
+              <label for="clientMobile">Mobile number</label>
+              <input id="clientMobile" name="clientMobile" type="tel" pattern="[0-9]{10,15}" required />
+            </div>
+            <div class="field">
+              <label for="clientCity">City of residence</label>
+              <input id="clientCity" name="clientCity" type="text" required />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" onclick="prevStep()">Back</button>
+            <button class="btn btn-primary" type="button" onclick="nextStep()">Next</button>
+          </div>
+        </section>
+
+        <section class="step" id="step2">
+          <h2 style="margin:0 0 10px;font-size:18px;">Your investing mindset</h2>
+          <p style="margin:0 0 14px;color:var(--muted);">These help us understand your comfort with financial risk.</p>
+
+          <div class="question" data-qno="1">
+            <div class="q-title">Q1. Compared to others, how would you describe your willingness to take financial risk?</div>
+            <div class="q-sub">Please choose the option that best reflects you in general.</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q1" value="1" required><span>Extremely low risk taker</span></label>
+              <label class="opt"><input type="radio" name="q1" value="2"><span>Very low risk taker</span></label>
+              <label class="opt"><input type="radio" name="q1" value="3"><span>Low risk taker</span></label>
+              <label class="opt"><input type="radio" name="q1" value="4"><span>Average risk taker</span></label>
+              <label class="opt"><input type="radio" name="q1" value="5"><span>High risk taker</span></label>
+              <label class="opt"><input type="radio" name="q1" value="6"><span>Very high risk taker</span></label>
+              <label class="opt"><input type="radio" name="q1" value="7"><span>Extremely high risk taker</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="2">
+            <div class="q-title">Q2. How easily do you adapt when things go wrong financially?</div>
+            <div class="q-sub">For example, unexpected expenses or temporary income disruptions.</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q2" value="1" required><span>Very uneasily</span></label>
+              <label class="opt"><input type="radio" name="q2" value="2"><span>Uneasily</span></label>
+              <label class="opt"><input type="radio" name="q2" value="3"><span>Somewhat uneasily</span></label>
+              <label class="opt"><input type="radio" name="q2" value="4"><span>Somewhat easily</span></label>
+              <label class="opt"><input type="radio" name="q2" value="5"><span>Easily</span></label>
+              <label class="opt"><input type="radio" name="q2" value="6"><span>Very easily</span></label>
+              <label class="opt"><input type="radio" name="q2" value="7"><span>Extremely easily</span></label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" onclick="prevStep()">Back</button>
+            <button class="btn btn-primary" type="button" onclick="nextStep()">Next</button>
+          </div>
+        </section>
+
+        <section class="step" id="step3">
+          <h2 style="margin:0 0 10px;font-size:18px;">Risk capacity</h2>
+          <p style="margin:0 0 14px;color:var(--muted);">These reflect your ability to take risk over time.</p>
+
+          <!-- Q3..Q7 -->
+          <div class="question" data-qno="3">
+            <div class="q-title">Q3. What is your expected investment time horizon for this portfolio?</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q3" value="1" required><span>Less than 3 years</span></label>
+              <label class="opt"><input type="radio" name="q3" value="2"><span>3–5 years</span></label>
+              <label class="opt"><input type="radio" name="q3" value="3"><span>6–10 years</span></label>
+              <label class="opt"><input type="radio" name="q3" value="4"><span>11–15 years</span></label>
+              <label class="opt"><input type="radio" name="q3" value="5"><span>More than 15 years</span></label>
+              <label class="opt"><input type="radio" name="q3" value="6"><span>Long-term, flexible timing</span></label>
+              <label class="opt"><input type="radio" name="q3" value="7"><span>Very long-term / legacy planning</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="4">
+            <div class="q-title">Q4. How much emergency liquidity do you maintain (coverage of expenses)?</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q4" value="1" required><span>Less than 3 months</span></label>
+              <label class="opt"><input type="radio" name="q4" value="2"><span>3–6 months</span></label>
+              <label class="opt"><input type="radio" name="q4" value="3"><span>6–12 months</span></label>
+              <label class="opt"><input type="radio" name="q4" value="4"><span>12–24 months</span></label>
+              <label class="opt"><input type="radio" name="q4" value="5"><span>More than 24 months</span></label>
+              <label class="opt"><input type="radio" name="q4" value="6"><span>Strong reserves + contingency planning</span></label>
+              <label class="opt"><input type="radio" name="q4" value="7"><span>Very strong reserves + multiple buffers</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="5">
+            <div class="q-title">Q5. How stable is your income?</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q5" value="1" required><span>Highly uncertain / irregular</span></label>
+              <label class="opt"><input type="radio" name="q5" value="2"><span>Variable income</span></label>
+              <label class="opt"><input type="radio" name="q5" value="3"><span>Moderately stable</span></label>
+              <label class="opt"><input type="radio" name="q5" value="4"><span>Stable</span></label>
+              <label class="opt"><input type="radio" name="q5" value="5"><span>Very stable</span></label>
+              <label class="opt"><input type="radio" name="q5" value="6"><span>Very stable with high visibility</span></label>
+              <label class="opt"><input type="radio" name="q5" value="7"><span>Highly secure + diversified sources</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="6">
+            <div class="q-title">Q6. How likely are you to need withdrawals from this portfolio in the next 3–5 years?</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q6" value="1" required><span>Very likely</span></label>
+              <label class="opt"><input type="radio" name="q6" value="2"><span>Likely</span></label>
+              <label class="opt"><input type="radio" name="q6" value="3"><span>Possible</span></label>
+              <label class="opt"><input type="radio" name="q6" value="4"><span>Unlikely</span></label>
+              <label class="opt"><input type="radio" name="q6" value="5"><span>Very unlikely</span></label>
+              <label class="opt"><input type="radio" name="q6" value="6"><span>Highly unlikely</span></label>
+              <label class="opt"><input type="radio" name="q6" value="7"><span>Not expected at all</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="7">
+            <div class="q-title">Q7. What portion of your overall investable wealth does this portfolio represent?</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q7" value="1" required><span>Most of my investable wealth</span></label>
+              <label class="opt"><input type="radio" name="q7" value="2"><span>A large portion</span></label>
+              <label class="opt"><input type="radio" name="q7" value="3"><span>About half</span></label>
+              <label class="opt"><input type="radio" name="q7" value="4"><span>A smaller portion</span></label>
+              <label class="opt"><input type="radio" name="q7" value="5"><span>A small portion</span></label>
+              <label class="opt"><input type="radio" name="q7" value="6"><span>One of several diversified buckets</span></label>
+              <label class="opt"><input type="radio" name="q7" value="7"><span>A small, high-growth allocation</span></label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" onclick="prevStep()">Back</button>
+            <button class="btn btn-primary" type="button" onclick="nextStep()">Next</button>
+          </div>
+        </section>
+
+        <section class="step" id="step4">
+          <h2 style="margin:0 0 10px;font-size:18px;">Risk tolerance & confirmation</h2>
+          <p style="margin:0 0 14px;color:var(--muted);">How you feel during volatility and drawdowns.</p>
+
+          <!-- Q8..Q12 -->
+          <div class="question" data-qno="8">
+            <div class="q-title">Q8. If markets fell ~20% in a short period, you would most likely:</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q8" value="1" required><span>Sell most holdings to reduce risk</span></label>
+              <label class="opt"><input type="radio" name="q8" value="2"><span>Reduce exposure materially</span></label>
+              <label class="opt"><input type="radio" name="q8" value="3"><span>Hold and wait</span></label>
+              <label class="opt"><input type="radio" name="q8" value="4"><span>Add selectively</span></label>
+              <label class="opt"><input type="radio" name="q8" value="5"><span>Add gradually with confidence</span></label>
+              <label class="opt"><input type="radio" name="q8" value="6"><span>Increase exposure meaningfully</span></label>
+              <label class="opt"><input type="radio" name="q8" value="7"><span>Strongly prefer to buy more</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="9">
+            <div class="q-title">Q9. Your comfort with short-term portfolio fluctuations is:</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q9" value="1" required><span>Very uncomfortable</span></label>
+              <label class="opt"><input type="radio" name="q9" value="2"><span>Uncomfortable</span></label>
+              <label class="opt"><input type="radio" name="q9" value="3"><span>Somewhat uncomfortable</span></label>
+              <label class="opt"><input type="radio" name="q9" value="4"><span>Neutral</span></label>
+              <label class="opt"><input type="radio" name="q9" value="5"><span>Comfortable</span></label>
+              <label class="opt"><input type="radio" name="q9" value="6"><span>Very comfortable</span></label>
+              <label class="opt"><input type="radio" name="q9" value="7"><span>Extremely comfortable</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="10">
+            <div class="q-title">Q10. The maximum short-term loss you could tolerate without changing your plan:</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q10" value="1" required><span>Up to ~5%</span></label>
+              <label class="opt"><input type="radio" name="q10" value="2"><span>~5–10%</span></label>
+              <label class="opt"><input type="radio" name="q10" value="3"><span>~10–15%</span></label>
+              <label class="opt"><input type="radio" name="q10" value="4"><span>~15–25%</span></label>
+              <label class="opt"><input type="radio" name="q10" value="5"><span>~25–35%</span></label>
+              <label class="opt"><input type="radio" name="q10" value="6"><span>~35–45%</span></label>
+              <label class="opt"><input type="radio" name="q10" value="7"><span>More than ~45%</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="11">
+            <div class="q-title">Q11. When markets are volatile, you generally prefer to:</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q11" value="1" required><span>Move to safety quickly</span></label>
+              <label class="opt"><input type="radio" name="q11" value="2"><span>Reduce risk</span></label>
+              <label class="opt"><input type="radio" name="q11" value="3"><span>Stay invested</span></label>
+              <label class="opt"><input type="radio" name="q11" value="4"><span>Look for opportunities</span></label>
+              <label class="opt"><input type="radio" name="q11" value="5"><span>Add gradually</span></label>
+              <label class="opt"><input type="radio" name="q11" value="6"><span>Add meaningfully</span></label>
+              <label class="opt"><input type="radio" name="q11" value="7"><span>Prefer to buy more aggressively</span></label>
+            </div>
+          </div>
+
+          <div class="question" data-qno="12">
+            <div class="q-title">Q12. Your return expectation from this portfolio is closest to:</div>
+            <div class="options">
+              <label class="opt"><input type="radio" name="q12" value="1" required><span>Very low, prioritize stability</span></label>
+              <label class="opt"><input type="radio" name="q12" value="2"><span>Low with limited volatility</span></label>
+              <label class="opt"><input type="radio" name="q12" value="3"><span>Moderate, balanced</span></label>
+              <label class="opt"><input type="radio" name="q12" value="4"><span>Moderate-high, accept volatility</span></label>
+              <label class="opt"><input type="radio" name="q12" value="5"><span>High, accept drawdowns</span></label>
+              <label class="opt"><input type="radio" name="q12" value="6"><span>Very high, accept large drawdowns</span></label>
+              <label class="opt"><input type="radio" name="q12" value="7"><span>Maximum growth, volatility acceptable</span></label>
+            </div>
+          </div>
+
+          <div class="question" style="padding:14px;">
+            <label class="opt" style="border-color:var(--border);">
+              <input type="checkbox" name="confirm" required />
+              <span>I confirm that the information provided above is true and accurate to the best of my knowledge.</span>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" onclick="prevStep()">Back</button>
+            <div class="submit-row">
+              <button class="btn btn-primary" id="submitAssessmentBtn" type="button" onclick="submitAssessment()">Submit assessment</button>
+              <div class="loading-row" id="submitLoading"><div class="spinner"></div><span>Submitting…</span></div>
+              <div id="submitError" style="display:none; padding:10px 12px; border-radius:12px; background:var(--dangerBg); color:var(--danger); border:1px solid var(--dangerBd); font-weight:900;"></div>
+            </div>
+          </div>
+
+          <div class="fineprint">
+            By submitting, you consent to receive communication from Goalchi Capital Services LLP regarding your assessment and next steps.
+          </div>
+        </section>
+      </form>
+    </div>
+  </div>
+
+  <footer>© 2026 Goalchi Capital Services LLP • Confidential Client Assessment</footer>
+</main>
+
+<script>
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbydMWCXrRuC15eHeBy0z2GFWbkvI3JZ7YY8QBzlAISZsvvwuySs_Wn8SWBzv2_bthd6mw/exec";
+  const VERSION = "premium_v3";
+
+  const totalSteps = 4;
+  let currentStep = 0;
+  window.isSubmitting = false;
+
+  const RISK_BANDS = [
+    { key:"Very Cautious", min:1.0, max:2.2, alloc:{ equity:[0,10], debt:[90,100], gold:[0,10] } },
+    { key:"Conservative", min:2.2, max:3.2, alloc:{ equity:[10,20], debt:[70,80], gold:[0,10] } },
+    { key:"Moderate Conservative", min:3.2, max:4.2, alloc:{ equity:[30,40], debt:[50,60], gold:[0,10] } },
+    { key:"Moderate", min:4.2, max:5.2, alloc:{ equity:[50,60], debt:[30,40], gold:[0,10] } },
+    { key:"Aggressive", min:5.2, max:6.2, alloc:{ equity:[70,80], debt:[10,20], gold:[0,10] } },
+    { key:"Very Aggressive", min:6.2, max:7.01, alloc:{ equity:[90,100], debt:[0,10], gold:[0,10] } },
+  ];
+
+  function setStepError(message){
+    const el=document.getElementById("stepError");
+    if(!el) return;
+    if(!message){el.style.display="none"; el.textContent=""; return;}
+    el.style.display="block"; el.textContent=message;
+  }
+  function scrollToElement(target){
+    if(!target) return;
+    const y=target.getBoundingClientRect().top+window.scrollY-120;
+    window.scrollTo({top:Math.max(0,y),behavior:"smooth"});
+  }
+  function showStep(step){
+    setStepError("");
+    document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+    document.getElementById("step"+step).classList.add("active");
+    const pct=(step===0)?0:(step/4)*100;
+    document.getElementById("progressBar").style.width=pct+"%";
+    const names={0:"Welcome",1:"Client details",2:"Mindset",3:"Capacity",4:"Tolerance & confirmation"};
+    document.getElementById("stepLabelLeft").textContent=`Step ${Math.min(step+1,5)} of 5`;
+    document.getElementById("stepLabelRight").textContent=names[step]||"";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  function validateStep(stepNumber){
+    const stepEl=document.getElementById("step"+stepNumber);
+    if(!stepEl) return {ok:true};
+
+    const requiredRadios=stepEl.querySelectorAll('input[type="radio"][required]');
+    const radioNames=new Set();
+    requiredRadios.forEach(r=>radioNames.add(r.name));
+
+    for(const name of radioNames){
+      const checked=stepEl.querySelector(`input[type="radio"][name="${name}"]:checked`);
+      if(!checked){
+        const first=stepEl.querySelector(`input[type="radio"][name="${name}"]`);
+        const qMatch=String(name).match(/q(\d+)/i);
+        const qNo=qMatch?qMatch[1]:null;
+        const msg=qNo?`Before proceeding, please answer Question ${qNo}.`:"Before proceeding, please answer the required question.";
+        return {ok:false, element:first, message:msg};
+      }
+    }
+
+    const requiredInputs=stepEl.querySelectorAll('input[required]:not([type="radio"])');
+    for(const input of requiredInputs){
+      if(input.type==="checkbox"){
+        if(!input.checked) return {ok:false, element:input, message:"Please confirm the declaration before submitting."};
+        continue;
+      }
+      if((input.value||"").trim()==="") return {ok:false, element:input, message:"Please fill all required fields before continuing."};
+      if(input.type==="email" && input.validity && !input.validity.valid) return {ok:false, element:input, message:"Please enter a valid email address."};
+      if(input.type==="tel" && input.validity && !input.validity.valid) return {ok:false, element:input, message:"Please enter a valid mobile number."};
+    }
+    return {ok:true};
+  }
+
+  function validateAndStayOnStep(stepNumber){
+    setStepError("");
+    const res=validateStep(stepNumber);
+    if(res.ok) return true;
+    setStepError(res.message);
+    const focusTarget=res.element?.closest(".question")||res.element;
+    scrollToElement(focusTarget);
+    try{res.element.focus({preventScroll:true});}catch{}
+    return false;
+  }
+
+  function nextStep(){ if(!validateAndStayOnStep(currentStep)) return; if(currentStep<4){currentStep++; showStep(currentStep);} }
+  function prevStep(){ if(currentStep>0){currentStep--; showStep(currentStep);} }
+
+  function bandFromComposite(avg){
+    for(const b of RISK_BANDS){ if(avg>=b.min && avg<b.max) return b.key; }
+    return "Very Aggressive";
+  }
+  function allocForBand(band){
+    const clean=band.replace(" (Capacity cap applied)","");
+    return (RISK_BANDS.find(x=>x.key===clean)||RISK_BANDS[0]).alloc;
+  }
+  function capByHardRules(band, a){
+    // hard caps based on capacity questions:
+    // q3 (horizon) <=2 OR q4 (emergency) <=2 OR q6 (withdrawals) <=2 => cap to Moderate Conservative
+    const order=["Very Cautious","Conservative","Moderate Conservative","Moderate","Aggressive","Very Aggressive"];
+    const idx=(x)=>Math.max(0,order.indexOf(x.replace(" (Capacity cap applied)","")));
+    const hard = (a.q3<=2) || (a.q4<=2) || (a.q6<=2);
+    if(!hard) return {band, override:"No"};
+    const max="Moderate Conservative";
+    if(idx(band)>idx(max)) return {band:max+" (Capacity cap applied)", override:"Yes"};
+    return {band, override:"No"};
+  }
+
+  async function submitAssessment(){
+    if(window.isSubmitting) return;
+
+    const form=document.getElementById("riskForm");
+    const submitBtn=document.getElementById("submitAssessmentBtn");
+    const loadingEl=document.getElementById("submitLoading");
+    const errorEl=document.getElementById("submitError");
+
+    if(errorEl){errorEl.style.display="none"; errorEl.textContent="";}
+
+    for(let step=1; step<=4; step++){
+      if(!validateAndStayOnStep(step)){currentStep=step; showStep(step); return;}
+    }
+
+    window.isSubmitting=true;
+    submitBtn.disabled=true;
+    submitBtn.textContent="Submitting…";
+    loadingEl.style.display="flex";
+
+    try{
+      const fd=new FormData(form);
+      const a={};
+      for(let i=1;i<=12;i++){a["q"+i]=parseInt(fd.get("q"+i),10);}
+
+      // Tolerance: Q1,Q2,Q8..Q12 (7 items)
+      const tol=[a.q1,a.q2,a.q8,a.q9,a.q10,a.q11,a.q12];
+      const tolAvg=tol.reduce((x,y)=>x+y,0)/tol.length;
+
+      // Capacity: Q3..Q7 (5 items)
+      const cap=[a.q3,a.q4,a.q5,a.q6,a.q7];
+      const capAvg=cap.reduce((x,y)=>x+y,0)/cap.length;
+
+      const compositeAvg=(0.60*tolAvg)+(0.40*capAvg); // 1..7
+      const score100=Math.round(((compositeAvg-1)/6)*100);
+
+      let band=bandFromComposite(compositeAvg);
+      let override="No";
+      const hard=capByHardRules(band,a);
+      band=hard.band; override=hard.override;
+
+      const alloc=allocForBand(band);
+
+      const submissionId="GC-"+Date.now();
+
+      const payload=new URLSearchParams({
+        formVersion: VERSION,
+        submissionId,
+        name: fd.get("clientName")||"",
+        email: fd.get("clientEmail")||"",
+        mobile: fd.get("clientMobile")||"",
+        city: fd.get("clientCity")||"",
+        q1:String(a.q1), q2:String(a.q2), q3:String(a.q3), q4:String(a.q4),
+        q5:String(a.q5), q6:String(a.q6), q7:String(a.q7), q8:String(a.q8),
+        q9:String(a.q9), q10:String(a.q10), q11:String(a.q11), q12:String(a.q12),
+        q13:"", q14:"", q15:"",
+        score:String(score100),
+        band,
+        override,
+        version: VERSION,
+        alloc_equity: alloc.equity.join("-"),
+        alloc_debt: alloc.debt.join("-"),
+        alloc_gold: alloc.gold.join("-"),
+      });
+
+      await fetch(WEB_APP_URL,{method:"POST",body:payload,mode:"no-cors"});
+
+      const clientSafe={
+        formVersion: VERSION,
+        submissionId,
+        submittedAt:new Date().toISOString(),
+        clientName: fd.get("clientName")||"",
+        clientEmail: fd.get("clientEmail")||"",
+        clientMobile: fd.get("clientMobile")||"",
+        clientCity: fd.get("clientCity")||"",
+        band, score100, allocation: alloc,
+        answers: Object.fromEntries(Array.from({length:12},(_,i)=>["q"+(i+1), fd.get("q"+(i+1))])),
+      };
+      sessionStorage.setItem("riskProfilerSubmissionPremium", JSON.stringify(clientSafe));
+      window.location.href="thankyou-results-page.html";
+
+    }catch(err){
+      console.error(err);
+      if(errorEl){
+        errorEl.style.display="block";
+        errorEl.textContent="We couldn’t submit your assessment. Please check your connection and try again.";
+      }
+    }finally{
+      window.isSubmitting=false;
+      loadingEl.style.display="none";
+      submitBtn.disabled=false;
+      submitBtn.textContent="Submit assessment";
+    }
+  }
+
+  showStep(0);
+</script>
+</body>
+</html>

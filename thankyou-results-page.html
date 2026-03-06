@@ -1,0 +1,395 @@
+<!-- =========================================================
+File: thankyou-premium.html
+Premium v3 thank-you + result experience (top-tier first impression)
+========================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Risk Profiling Result | Goalchi Capital</title>
+  <style>
+    :root{
+      --navy:#0b2d5b;
+      --navy2:#0f3d78;
+      --gold:#c9a227;
+      --slate:#9aa4b2;
+
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --border:#e5e7eb;
+      --shadow:0 14px 40px rgba(15,23,42,.10);
+      --radius:18px;
+
+      --ok:#166534;
+      --okBg:#ecfdf3;
+      --okBd:#b7efc6;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+
+    header{background:#fff;border-bottom:1px solid var(--border)}
+    .header-inner{
+      max-width:1050px;margin:0 auto;padding:14px 16px;
+      display:flex;justify-content:space-between;align-items:center;gap:16px
+    }
+    .brand-left{display:flex;align-items:center;gap:12px}
+    .brand-left img{height:34px;width:auto;display:block}
+    .brand-right{font-weight:1000;color:var(--navy);letter-spacing:.2px}
+
+    main{max-width:1050px;margin:22px auto 56px;padding:0 16px}
+    .wrap{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .top{
+      padding:22px 22px 16px;
+      border-bottom:1px solid var(--border);
+      background:
+        radial-gradient(900px 240px at 15% 0%, rgba(11,45,91,.12), transparent 60%),
+        radial-gradient(900px 240px at 90% 10%, rgba(201,162,39,.12), transparent 55%),
+        #fff;
+    }
+
+    .top-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media(max-width:920px){.top-grid{grid-template-columns:1fr}}
+
+    h1{margin:0 0 6px;font-size:28px;letter-spacing:-.3px}
+    .sub{margin:0;color:var(--muted)}
+    .ref-pill{
+      margin-top:12px;
+      display:inline-flex;align-items:center;gap:8px;
+      background:#f8fafc;border:1px solid var(--border);
+      border-radius:999px;padding:8px 10px;
+      font-weight:1000;font-size:12px;
+    }
+
+    .status{
+      border:1px solid var(--okBd);
+      background:var(--okBg);
+      border-radius:16px;
+      padding:14px;
+    }
+    .status-row{display:flex;gap:12px;align-items:flex-start}
+    .status b{display:block;margin-bottom:4px}
+    .status p{margin:0;color:var(--muted);font-size:13px}
+    .mailto{color:var(--navy2);text-decoration:none;font-weight:900}
+    .mailto:hover{text-decoration:underline}
+
+    /* Animated check */
+    .check{
+      width:44px;height:44px;border-radius:14px;
+      background:#fff;border:1px solid var(--okBd);
+      display:flex;align-items:center;justify-content:center;
+      flex:0 0 auto;
+      box-shadow:0 8px 18px rgba(22,101,52,.10);
+    }
+    .check svg{width:26px;height:26px}
+    .path{
+      stroke: var(--ok);
+      stroke-width: 3.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: draw 900ms ease forwards 180ms;
+    }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+
+    .content{padding:18px 22px 22px}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+    }
+    @media(max-width:920px){.grid{grid-template-columns:1fr}}
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+      padding:14px;
+    }
+    .card h2{
+      margin:0 0 8px;
+      font-size:16px;
+      letter-spacing:-.2px;
+      color:var(--navy);
+    }
+
+    .k{font-size:12px;color:var(--muted);font-weight:1000;text-transform:uppercase;letter-spacing:.08em}
+    .v{font-weight:1100;margin-top:4px;font-size:18px}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#f1f5f9;border:1px solid var(--border);
+      border-radius:999px;padding:8px 10px;
+      font-weight:1100;margin-top:10px;
+    }
+
+    /* Donut */
+    .donut-wrap{display:flex;gap:14px;align-items:center}
+    .donut{
+      width:164px;height:164px;border-radius:50%;
+      background: conic-gradient(var(--navy) 0 60%, var(--slate) 60% 90%, var(--gold) 90% 100%);
+      border:10px solid #fff;
+      box-shadow:0 10px 22px rgba(15,23,42,.10);
+      flex:0 0 auto;
+    }
+    .legend{display:grid;gap:10px;width:100%}
+    .row{display:flex;justify-content:space-between;gap:10px;font-weight:1000;color:#111827}
+    .row span{color:var(--muted);font-weight:1000}
+
+    .callout{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      border:1px dashed rgba(11,45,91,.25);
+      background:rgba(11,45,91,.03);
+      font-weight:900;
+      font-size:13px;
+    }
+    .callout a{color:var(--navy2);text-decoration:none}
+    .callout a:hover{text-decoration:underline}
+
+    .steps{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    @media(max-width:920px){.steps{grid-template-columns:1fr}}
+    .step{
+      background:#f8fafc;border:1px solid var(--border);
+      border-radius:16px;padding:12px;
+    }
+    .num{
+      width:30px;height:30px;border-radius:10px;
+      background:#fff;border:1px solid var(--border);
+      display:inline-flex;align-items:center;justify-content:center;
+      font-weight:1100;color:var(--navy);
+      margin-bottom:8px;
+    }
+    .step b{display:block;margin-bottom:6px}
+    .step p{margin:0;color:var(--muted);font-size:13px}
+
+    .actions{
+      display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;
+    }
+    button.btn, a.btn{
+      border-radius:12px;padding:12px 14px;
+      font-weight:1100;font-size:14px;
+      border:1px solid transparent;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;align-items:center;justify-content:center;
+    }
+    .btn-primary{
+      background:linear-gradient(180deg,var(--navy),#08244a);
+      color:#fff;
+      box-shadow:0 10px 18px rgba(11,45,91,.18);
+    }
+    .btn-secondary{
+      background:linear-gradient(180deg,#f1f5f9,#e9eef6);
+      color:#111827;
+      border-color:var(--border);
+    }
+
+    .disclaimer{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:18px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand-left">
+      <img src="assets/logo.png" alt="Goalchi Capital logo" />
+      <div style="font-weight:1100">Goalchi Capital</div>
+    </div>
+    <div class="brand-right">Goalchi Capital Services LLP</div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="top">
+      <div class="top-grid">
+        <div>
+          <h1 id="title">Assessment submitted successfully.</h1>
+          <p class="sub">
+            Your indicative risk band, score and allocation are shown below. A PDF report has also been emailed to you for your reference.
+          </p>
+
+          <div class="ref-pill">
+            Reference ID: <span id="ref" style="color:var(--navy);">GC-—</span>
+          </div>
+        </div>
+
+        <div class="status">
+          <div class="status-row">
+            <div class="check" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path class="path" d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </div>
+            <div>
+              <b>Report sent by email</b>
+              <p>
+                Please check your inbox (and Spam/Promotions). If you need assistance, call
+                <a class="mailto" href="tel:+918427132300">+91 8427132300</a>.
+              </p>
+              <p style="margin-top:8px;">
+                If you would like a copy resent, please call our team with your Reference ID.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="grid">
+        <div class="card">
+          <h2>Your indicative profile</h2>
+          <div class="k">Name</div>
+          <div class="v" id="name">—</div>
+
+          <div style="margin-top:10px;" class="k">Indicative risk band</div>
+          <div class="v" id="band">—</div>
+
+          <div class="pill">
+            Score <span style="color:var(--navy)" id="score">—</span> / 100
+          </div>
+
+          <div class="callout" style="margin-top:12px;">
+            This result supports suitability and is informational in nature. It may be supplemented with additional information.
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="num">1</div>
+              <b>Confirmation call</b>
+              <p>We confirm objectives, horizon and liquidity needs, and answer questions you may have.</p>
+            </div>
+            <div class="step">
+              <div class="num">2</div>
+              <b>Suitability & next steps</b>
+              <p>We outline the next steps based on your risk profile and practical constraints.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Indicative allocation</h2>
+          <div class="donut-wrap">
+            <div class="donut" id="donut"></div>
+            <div class="legend">
+              <div class="row">Equity <span id="eq">—</span></div>
+              <div class="row">Debt / Fixed Income <span id="debt">—</span></div>
+              <div class="row">Gold / Alternatives <span id="gold">—</span></div>
+            </div>
+          </div>
+
+          <div class="callout">
+            Need help? Contact our Team at <a href="tel:+918427132300">+91 8427132300</a>.
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" onclick="window.print()">Print / Save</button>
+            <a class="btn btn-primary" href="risk-profiler-form.html">Start a new premium submission</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions" style="justify-content:flex-start;">
+        <a class="btn btn-secondary" href="index.html">Back to landing page</a>
+</div>
+
+      <div class="disclaimer">
+        <b>Disclaimer:</b> This risk profiling assessment is for suitability and informational purposes only and does not constitute investment advice or a recommendation.
+        Outcomes are indicative and may be supplemented with additional information.
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2016-2026 Goalchi Capital Services LLP • Confidential Client Assessment</footer>
+</main>
+
+<script>
+  function setDonut(eqMid, debtMid, goldMid){
+    const total = (eqMid + debtMid + goldMid) || 100;
+    const e = (eqMid/total) * 100;
+    const d = (debtMid/total) * 100;
+    const donut = document.getElementById("donut");
+    donut.style.background =
+      `conic-gradient(var(--navy) 0 ${e}%, var(--slate) ${e}% ${e+d}%, var(--gold) ${e+d}% 100%)`;
+  }
+
+  function safeText(v){ return (v == null || v === "") ? "—" : String(v); }
+
+  try{
+    const sub = JSON.parse(sessionStorage.getItem("riskProfilerSubmissionPremium") || "null");
+    if(sub){
+      const clientName = safeText(sub.clientName);
+      document.getElementById("name").textContent = clientName;
+      document.getElementById("ref").textContent = safeText(sub.submissionId);
+      document.getElementById("band").textContent = safeText(sub.band);
+      document.getElementById("score").textContent = safeText(sub.score100);
+
+      // Personalize header
+      if (sub.clientName) {
+        document.getElementById("title").textContent = `Thank you, ${sub.clientName}.`;
+      }
+
+      const eq = sub.allocation?.equity?.join("–") || "—";
+      const debt = sub.allocation?.debt?.join("–") || "—";
+      const gold = sub.allocation?.gold?.join("–") || "—";
+
+      document.getElementById("eq").textContent = eq + "%";
+      document.getElementById("debt").textContent = debt + "%";
+      document.getElementById("gold").textContent = gold + "%";
+
+      const eqMid = sub.allocation?.equity ? (sub.allocation.equity[0] + sub.allocation.equity[1]) / 2 : 0;
+      const debtMid = sub.allocation?.debt ? (sub.allocation.debt[0] + sub.allocation.debt[1]) / 2 : 0;
+      const goldMid = sub.allocation?.gold ? (sub.allocation.gold[0] + sub.allocation.gold[1]) / 2 : 0;
+      setDonut(eqMid, debtMid, goldMid);
+    }
+  }catch(e){}
+</script>
+</body>
+</html>
