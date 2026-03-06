@@ -352,99 +352,111 @@
   </main>
 
   <script>
-  (function () {
-    // --- Update these IDs to match your HTML ---
-    const elRiskBand = document.getElementById("riskBandValue");
-    const elScore = document.getElementById("scoreValue");
-    const elStatus = document.getElementById("statusValue");
+    (function () {
+      // Keep year updated
+      var y = document.getElementById("year");
+      if (y) y.textContent = String(new Date().getFullYear());
 
-    const summaryWrap = document.getElementById("riskSummaryWrap"); // container that CTA shows/hides
-    const toggleBtn = document.getElementById("toggleSummaryBtn");
+      // Correct IDs from your HTML
+      var toggleBtn = document.getElementById("toggleResults");
+      var panel = document.getElementById("resultsPanel");
+      var elBand = document.getElementById("riskBand");
+      var elScore = document.getElementById("score");
 
-    // Try multiple storage keys (covers older/newer versions)
-    const STORAGE_KEYS = [
-      "riskProfilerSubmissionPremium",
-      "riskProfilerSubmission",
-      "riskProfilerSubmissionV2",
-      "riskProfilerResult",
-      "rpSubmission"
-    ];
-
-    function safeJsonParse(s) {
-      try { return JSON.parse(s); } catch { return null; }
-    }
-
-    function getFromStorage() {
-      for (const k of STORAGE_KEYS) {
-        const raw = sessionStorage.getItem(k) || localStorage.getItem(k);
-        if (!raw) continue;
-
-        const parsed = safeJsonParse(raw);
-        if (parsed && typeof parsed === "object") return parsed;
+      if (!toggleBtn || !panel) {
+        // If these are missing, CTA cannot work
+        return;
       }
-      return null;
-    }
 
-    function normalizeResult(obj) {
-      if (!obj) return null;
+      // Storage keys (do not change your form; we support multiple possibilities)
+      var STORAGE_KEYS = [
+        "riskProfilerSubmissionPremium",
+        "riskProfilerSubmission",
+        "riskProfilerSubmissionV2",
+        "riskProfilerResult",
+        "rpSubmission"
+      ];
 
-      // Support multiple naming schemes
-      const band =
-        obj.band ??
-        obj.riskBand ??
-        obj.risk_band ??
-        obj.riskBandText ??
-        "";
+      function safeParse(s) {
+        try { return JSON.parse(s); } catch (e) { return null; }
+      }
 
-      const score =
-        obj.score ??
-        obj.score100 ??
-        obj.totalScore ??
-        obj.total_score ??
-        "";
+      function getStoredObject() {
+        for (var i = 0; i < STORAGE_KEYS.length; i++) {
+          var k = STORAGE_KEYS[i];
+          var raw = sessionStorage.getItem(k) || localStorage.getItem(k);
+          if (!raw) continue;
+          var obj = safeParse(raw);
+          if (obj && typeof obj === "object") return obj;
+        }
+        return null;
+      }
 
-      const status =
-        obj.status ??
-        obj.submissionStatus ??
-        "Submitted";
+      function normalize(obj) {
+        if (!obj) return { band: "", score: "" };
 
-      // also keep name/email if you need later
-      return {
-        band: String(band || "").trim(),
-        score: String(score || "").trim(),
-        status: String(status || "Submitted").trim()
-      };
-    }
+        var band = (obj.band != null ? obj.band :
+                    obj.riskBand != null ? obj.riskBand :
+                    obj.risk_band != null ? obj.risk_band :
+                    obj.riskBandText != null ? obj.riskBandText : "");
+        var score = (obj.score != null ? obj.score :
+                     obj.score100 != null ? obj.score100 :
+                     obj.totalScore != null ? obj.totalScore :
+                     obj.total_score != null ? obj.total_score : "");
 
-    function render(result) {
-      // If elements are missing, fail silently (prevents JS crash)
-      if (elRiskBand) elRiskBand.textContent = result?.band || "—";
-      if (elScore) elScore.textContent = result?.score || "—";
-      if (elStatus) elStatus.textContent = result?.status || "Submitted";
-    }
+        return {
+          band: String(band || "").trim(),
+          score: String(score || "").trim()
+        };
+      }
 
-    function setSummaryVisible(visible) {
-      if (!summaryWrap || !toggleBtn) return;
-      summaryWrap.style.display = visible ? "block" : "none";
-      toggleBtn.textContent = visible ? "Hide your risk profile summary" : "View your risk profile summary";
-      toggleBtn.setAttribute("aria-expanded", String(visible));
-    }
+      function normalizeBandForRow(bandText) {
+        var b = String(bandText || "").toLowerCase().trim();
+        if (!b) return "";
+        if (b.indexOf("very low") >= 0) return "very low risk";
+        if (b.indexOf("low") >= 0) return "low risk";
+        if (b.indexOf("medium") >= 0 || b.indexOf("moderate") >= 0) return "medium risk";
+        if (b.indexOf("high") >= 0 || b.indexOf("aggressive") >= 0) return "high risk";
+        return "";
+      }
 
-    // --- Init ---
-    const rawObj = getFromStorage();
-    const result = normalizeResult(rawObj);
-    render(result);
+      function highlightAllocationRow(bandText) {
+        var key = normalizeBandForRow(bandText);
+        var rows = document.querySelectorAll("#allocBody tr");
+        for (var i = 0; i < rows.length; i++) {
+          var r = rows[i];
+          var match = key && r.getAttribute("data-band") === key;
+          if (match) r.classList.add("isSelected");
+          else r.classList.remove("isSelected");
+        }
+      }
 
-    // default: keep summary visible if result exists, else collapsed
-    setSummaryVisible(Boolean(result && (result.band || result.score)));
+      // Populate values once at load
+      var data = normalize(getStoredObject());
+      if (elBand) elBand.textContent = data.band || "—";
+      if (elScore) elScore.textContent = data.score || "—";
+      highlightAllocationRow(data.band);
 
-    if (toggleBtn && summaryWrap) {
+      // CTA toggle
+      function setOpen(open) {
+        if (open) {
+          panel.classList.add("show");
+          toggleBtn.textContent = "Hide your risk profile summary";
+          toggleBtn.setAttribute("aria-expanded", "true");
+        } else {
+          panel.classList.remove("show");
+          toggleBtn.textContent = "View your risk profile summary";
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
+      }
+
+      // Default collapsed (your current intent)
+      setOpen(false);
+
       toggleBtn.addEventListener("click", function () {
-        const isVisible = summaryWrap.style.display !== "none";
-        setSummaryVisible(!isVisible);
+        setOpen(!panel.classList.contains("show"));
       });
-    }
-  })();
-</script>
+    })();
+  </script>
 </body>
 </html>
