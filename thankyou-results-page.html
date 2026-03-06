@@ -1,41 +1,29 @@
-<!-- =========================================================
-File: thankyou-results-page.html
-========================================================= -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Risk Profiling Result | Goalchi Capital</title>
+  <title>Thank you - Risk Profiling | Goalchi Capital</title>
   <style>
     :root{
-      --navy:#0b2d5b;
-      --navy2:#0f3d78;
-      --gold:#c9a227;
-      --slate:#9aa4b2;
-
+      --navy:#0f2a44;
+      --gold:#b39234;
+      --muted:#556273;
+      --border:#e5e7eb;
       --bg:#f6f7fb;
       --card:#ffffff;
-      --text:#0f172a;
-      --muted:#475569;
-      --border:#e5e7eb;
-      --shadow:0 14px 40px rgba(15,23,42,.10);
+      --shadow:0 10px 25px rgba(15,42,68,0.06);
       --radius:18px;
-
-      --ok:#166534;
-      --okBg:#ecfdf3;
-      --okBd:#b7efc6;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
+      color:#0b1220;
       background:var(--bg);
-      color:var(--text);
-      line-height:1.55;
     }
 
+    /* Header (sync with index.html) */
     header{background:#fff;border-bottom:1px solid var(--border)}
     .header-inner{
       max-width:1100px;margin:0 auto;padding:14px 16px;
@@ -46,355 +34,371 @@ File: thankyou-results-page.html
     .brand-left .t{display:flex;flex-direction:column;gap:2px}
     .brand-left b{font-size:14px;letter-spacing:.2px}
     .brand-left span{font-size:12px;color:var(--muted)}
-    .brand-right{font-weight:950;color:var(--navy);letter-spacing:.2px}
-    main{max-width:1050px;margin:22px auto 56px;padding:0 16px}
-    .wrap{
+    .brand-right{font-weight:800;color:var(--navy);letter-spacing:.2px}
+
+    /* Layout */
+    .wrap{max-width:1100px;margin:0 auto;padding:26px 16px 42px}
+    .heroCard{
       background:var(--card);
       border:1px solid var(--border);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
-      overflow:hidden;
+      padding:22px;
+    }
+    .heroTitle{
+      margin:0 0 8px;
+      font-size:30px;
+      line-height:1.15;
+      color:var(--navy);
+      font-weight:900;
+      letter-spacing:0.1px;
+    }
+    .heroLead{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:16px;
+      max-width:80ch;
     }
 
-    .top{
-      padding:22px 22px 16px;
-      border-bottom:1px solid var(--border);
-      background:
-        radial-gradient(900px 240px at 15% 0%, rgba(11,45,91,.12), transparent 60%),
-        radial-gradient(900px 240px at 90% 10%, rgba(201,162,39,.12), transparent 55%),
-        #fff;
+    .note{
+      margin:12px 0 0;
+      padding:12px 14px;
+      border:1px dashed rgba(15,42,68,0.18);
+      border-radius:14px;
+      color:var(--muted);
+      background:rgba(255,255,255,0.65);
+      line-height:1.55;
+      font-size:14px;
     }
 
-    .top-grid{
+    .ctaRow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+    .btn{
+      appearance:none;border:1px solid rgba(15,42,68,0.18);
+      background:var(--navy);color:#fff;
+      padding:12px 16px;border-radius:14px;
+      font-weight:800;letter-spacing:.2px;
+      cursor:pointer;
+      box-shadow:0 6px 16px rgba(15,42,68,0.14);
+    }
+    .btn:active{transform:translateY(1px)}
+    .btnSecondary{
+      background:#fff;color:var(--navy);
+      box-shadow:none;
+    }
+    .helpLine{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.4;
+    }
+    .helpLine b{color:var(--navy)}
+    .helpLine a{color:var(--navy);text-decoration:none;font-weight:800}
+    .helpLine a:hover{text-decoration:underline}
+
+    /* Results panel */
+    .results{
+      margin-top:18px;
+      border-top:1px solid rgba(15,42,68,0.10);
+      padding-top:18px;
+      display:none;
+    }
+    .results.show{display:block}
+    .resultsGrid{
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:16px;
-      align-items:start;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+      margin-bottom:14px;
     }
-    @media(max-width:920px){.top-grid{grid-template-columns:1fr}}
-
-    h1{margin:0 0 6px;font-size:28px;letter-spacing:-.3px}
-    .sub{margin:0;color:var(--muted)}
-    .ref-pill{
-      margin-top:12px;
-      display:inline-flex;align-items:center;gap:8px;
-      background:#f8fafc;border:1px solid var(--border);
-      border-radius:999px;padding:8px 10px;
-      font-weight:1000;font-size:12px;
-    }
-
-    .status{
-      border:1px solid var(--okBd);
-      background:var(--okBg);
-      border-radius:16px;
-      padding:14px;
-    }
-    .status-row{display:flex;gap:12px;align-items:flex-start}
-    .status b{display:block;margin-bottom:4px}
-    .status p{margin:0;color:var(--muted);font-size:13px}
-    .mailto{color:var(--navy2);text-decoration:none;font-weight:900}
-    .mailto:hover{text-decoration:underline}
-
-    /* Animated check */
-    .check{
-      width:44px;height:44px;border-radius:14px;
-      background:#fff;border:1px solid var(--okBd);
-      display:flex;align-items:center;justify-content:center;
-      flex:0 0 auto;
-      box-shadow:0 8px 18px rgba(22,101,52,.10);
-    }
-    .check svg{width:26px;height:26px}
-    .path{
-      stroke: var(--ok);
-      stroke-width: 3.2;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 60;
-      stroke-dashoffset: 60;
-      animation: draw 900ms ease forwards 180ms;
-    }
-    @keyframes draw { to { stroke-dashoffset: 0; } }
-
-    .content{padding:18px 22px 22px}
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:16px;
-    }
-    @media(max-width:920px){.grid{grid-template-columns:1fr}}
-
-    .card{
+    .metric{
       border:1px solid var(--border);
       border-radius:16px;
       background:#fff;
       padding:14px;
     }
-    .card h2{
-      margin:0 0 8px;
-      font-size:16px;
-      letter-spacing:-.2px;
+    .metric .k{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700;letter-spacing:.2px}
+    .metric .v{font-size:18px;color:var(--navy);font-weight:900}
+    .metric .s{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4}
+
+    /* Allocation section */
+    .allocCard{
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+      padding:16px;
+    }
+    .allocHead{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .allocTitle{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
       color:var(--navy);
     }
-
-    .k{font-size:12px;color:var(--muted);font-weight:1000;text-transform:uppercase;letter-spacing:.08em}
-    .v{font-weight:1100;margin-top:4px;font-size:18px}
-
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      background:#f1f5f9;border:1px solid var(--border);
-      border-radius:999px;padding:8px 10px;
-      font-weight:1100;margin-top:10px;
-    }
-
-    /* Donut */
-    .donut-wrap{display:flex;gap:14px;align-items:center}
-    .donut{
-      width:164px;height:164px;border-radius:50%;
-      background: conic-gradient(var(--navy) 0 60%, var(--slate) 60% 90%, var(--gold) 90% 100%);
-      border:10px solid #fff;
-      box-shadow:0 10px 22px rgba(15,23,42,.10);
-      flex:0 0 auto;
-    }
-    .legend{display:grid;gap:10px;width:100%}
-    .row{display:flex;justify-content:space-between;gap:10px;font-weight:1000;color:#111827}
-    .row span{color:var(--muted);font-weight:1000}
-
-    .callout{
-      margin-top:12px;
-      padding:12px;
-      border-radius:16px;
-      border:1px dashed rgba(11,45,91,.25);
-      background:rgba(11,45,91,.03);
-      font-weight:900;
+    .allocSub{
+      margin:0;
       font-size:13px;
-    }
-    .callout a{color:var(--navy2);text-decoration:none}
-    .callout a:hover{text-decoration:underline}
-
-    .steps{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:10px;
-    }
-    @media(max-width:920px){.steps{grid-template-columns:1fr}}
-    .step{
-      background:#f8fafc;border:1px solid var(--border);
-      border-radius:16px;padding:12px;
-    }
-    .num{
-      width:30px;height:30px;border-radius:10px;
-      background:#fff;border:1px solid var(--border);
-      display:inline-flex;align-items:center;justify-content:center;
-      font-weight:1100;color:var(--navy);
-      margin-bottom:8px;
-    }
-    .step b{display:block;margin-bottom:6px}
-    .step p{margin:0;color:var(--muted);font-size:13px}
-
-    .actions{
-      display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;
-    }
-    button.btn, a.btn{
-      border-radius:12px;padding:12px 14px;
-      font-weight:1100;font-size:14px;
-      border:1px solid transparent;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;align-items:center;justify-content:center;
-    }
-    .btn-primary{
-      background:linear-gradient(180deg,var(--navy),#08244a);
-      color:#fff;
-      box-shadow:0 10px 18px rgba(11,45,91,.18);
-    }
-    .btn-secondary{
-      background:linear-gradient(180deg,#f1f5f9,#e9eef6);
-      color:#111827;
-      border-color:var(--border);
-    }
-
-    .disclaimer{
-      margin-top:12px;
-      padding:12px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background:#fff;
       color:var(--muted);
-      font-size:12px;
+      line-height:1.45;
+      max-width:85ch;
+    }
+
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid rgba(15,42,68,0.12);
+      background:#fff;
+    }
+    thead th{
+      text-align:left;
+      background:rgba(15,42,68,0.04);
+      color:var(--navy);
+      font-weight:900;
+      font-size:13.5px;
+      padding:12px 12px;
+      border-bottom:1px solid rgba(15,42,68,0.10);
+    }
+    tbody td{
+      vertical-align:top;
+      padding:12px 12px;
+      font-size:13.5px;
+      line-height:1.55;
+      color:#0b1220;
+      border-bottom:1px solid rgba(15,42,68,0.08);
+    }
+    tbody tr:last-child td{border-bottom:none}
+    tbody td:nth-child(1){width:18%;font-weight:900;color:var(--navy)}
+    tbody td:nth-child(3){width:22%;white-space:nowrap}
+
+    tbody tr.isSelected{
+      background:rgba(179,146,52,0.10);
+      outline:2px solid rgba(179,146,52,0.35);
+      outline-offset:-2px;
+    }
+
+    /* Next steps */
+    .next{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
+    .nextCard{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+    }
+    .nextCard .t{
+      display:flex;align-items:center;gap:10px;margin-bottom:10px
+    }
+    .pill{
+      width:30px;height:30px;border-radius:10px;
+      display:inline-flex;align-items:center;justify-content:center;
+      background:rgba(15,42,68,0.06);
+      color:var(--navy);
+      font-weight:900;
+      border:1px solid rgba(15,42,68,0.10);
+    }
+    .nextCard h3{
+      margin:0;
+      font-size:15px;
+      color:var(--navy);
+      font-weight:900;
+    }
+    .nextCard p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:14px;
     }
 
     footer{
-      text-align:center;
+      margin-top:18px;
       color:var(--muted);
       font-size:12px;
-      margin-top:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    @media (max-width: 920px){
+      .resultsGrid{grid-template-columns:1fr}
+      .next{grid-template-columns:1fr}
+      tbody td:nth-child(3){white-space:normal}
     }
   </style>
 </head>
-
 <body>
-<header>
-  <div class="header-inner">
-    <div class="brand-left">
-      <img src="assets/logo.png" alt="Goalchi Capital logo" />
-      <div class="t">
-        <b>Goalchi Capital</b>
-        <span>Risk Profiling & Suitability</span>
+  <header>
+    <div class="header-inner">
+      <div class="brand-left">
+        <img src="assets/logo.png" alt="Goalchi Capital logo" />
+        <div class="t">
+          <b>Goalchi Capital</b>
+          <span>Risk Profiling &amp; Suitability</span>
+        </div>
       </div>
+      <div class="brand-right">Goalchi Capital Services LLP</div>
     </div>
-    <div class="brand-right">Goalchi Capital Services LLP</div>
-  </div>
-</header>
+  </header>
 
+  <main class="wrap">
+    <section class="heroCard">
+      <h1 class="heroTitle">Thank you for completing the risk assessment.</h1>
+      <p class="heroLead">
+        We have received your responses. Our advisory team will review your assessment and connect with you to discuss the
+        suitable portfolio approach and next steps.
+      </p>
 
-<main>
-  <div class="wrap">
-    <div class="top">
-      <div class="top-grid">
-        <div>
-          <h1 id="title">Assessment submitted successfully.</h1>
-          <p class="sub">
-            Your indicative risk band, score and allocation are shown below. A PDF report has also been emailed to you for your reference.
-          </p>
-
-          <div class="ref-pill">
-            Reference ID: <span id="ref" style="color:var(--navy);">GC-—</span>
-          </div>
-        </div>
-
-        <div class="status">
-          <div class="status-row">
-            <div class="check" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path class="path" d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </div>
-            <div>
-              <b>Report sent by email</b>
-              <p>
-                Please check your inbox (and Spam/Promotions). If you need assistance, call
-                <a class="mailto" href="tel:+918427132300">+91 8427132300</a>.
-              </p>
-              <p style="margin-top:8px;">
-                If you would like a copy resent, please call our team with your Reference ID.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="note">
+        A copy of your completed responses and assessment report has been sent to your registered email address. Please check
+        your inbox/spam.
       </div>
-    </div>
 
-    <div class="content">
-      <div class="grid">
-        <div class="card">
-          <h2>Your indicative profile</h2>
-          <div class="k">Name</div>
-          <div class="v" id="name">—</div>
-
-          <div style="margin-top:10px;" class="k">Indicative risk band</div>
-          <div class="v" id="band">—</div>
-
-          <div class="pill">
-            Score <span style="color:var(--navy)" id="score">—</span> / 100
-          </div>
-
-          <div class="callout" style="margin-top:12px;">
-            This result supports suitability and is informational in nature. It may be supplemented with additional information.
-          </div>
-
-          <div class="steps">
-            <div class="step">
-              <div class="num">1</div>
-              <b>Confirmation call</b>
-              <p>We confirm objectives, horizon and liquidity needs, and answer questions you may have.</p>
-            </div>
-            <div class="step">
-              <div class="num">2</div>
-              <b>Suitability & next steps</b>
-              <p>We outline the next steps based on your risk profile and practical constraints.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2>Indicative allocation</h2>
-          <div class="donut-wrap">
-            <div class="donut" id="donut"></div>
-            <div class="legend">
-              <div class="row">Equity <span id="eq">—</span></div>
-              <div class="row">Debt / Fixed Income <span id="debt">—</span></div>
-              <div class="row">Gold / Alternatives <span id="gold">—</span></div>
-            </div>
-          </div>
-
-          <div class="callout">
-            Need help? Contact our Team at <a href="tel:+918427132300">+91 8427132300</a>.
-          </div>
-
-          <div class="actions">
-            <button class="btn btn-secondary" type="button" onclick="window.print()">Print / Save</button>
-            <a class="btn btn-primary" href="risk-profiler-form.html">Start a new premium submission</a>
-          </div>
+      <div class="ctaRow">
+        <button id="toggleResults" class="btn" type="button">View your risk profile summary</button>
+        <div class="helpLine">
+          Need help? Call/WhatsApp: <a href="tel:+919871511236">+91 98715 11236</a>
         </div>
       </div>
 
-      <div class="actions" style="justify-content:flex-start;">
-        <a class="btn btn-secondary" href="index.html">Back to landing page</a>
-</div>
+      <div id="resultsPanel" class="results" aria-live="polite">
+        <div class="resultsGrid">
+          <div class="metric">
+            <div class="k">Risk band</div>
+            <div id="riskBand" class="v">—</div>
+            <div class="s">Indicative suitability category</div>
+          </div>
+          <div class="metric">
+            <div class="k">Score</div>
+            <div id="score" class="v">—</div>
+            <div class="s">Based on your responses</div>
+          </div>
+          <div class="metric">
+            <div class="k">Assessment status</div>
+            <div class="v">Submitted</div>
+            <div class="s">We will contact you shortly</div>
+          </div>
+        </div>
 
-      <div class="disclaimer">
-        <b>Disclaimer:</b> This risk profiling assessment is for suitability and informational purposes only and does not constitute investment advice or a recommendation.
-        Outcomes are indicative and may be supplemented with additional information.
+        <div class="allocCard">
+          <div class="allocHead">
+            <h2 class="allocTitle">Asset allocation guide by risk profile</h2>
+            <p class="allocSub">
+              This table is a general reference framework. Final recommendations depend on objectives, constraints, cash flows and suitability.
+            </p>
+          </div>
+
+          <table aria-label="Asset allocation guide by risk profile">
+            <thead>
+              <tr>
+                <th>Risk profile</th>
+                <th>Investor profile</th>
+                <th>Possible asset allocation</th>
+              </tr>
+            </thead>
+            <tbody id="allocBody">
+              <tr data-band="very low risk">
+                <td>Very low risk</td>
+                <td>Very low risk capacity and tolerance; unable to take on risk due to having too many financial obligations and/or modest income and wealth build up; has low tolerance towards risk.</td>
+                <td>Equity: 0–10%<br>Debt and cash: 90–100%</td>
+              </tr>
+              <tr data-band="low risk">
+                <td>Low risk</td>
+                <td>Low risk capacity and tolerance; cannot take on too much risk due to having financial obligations and/or modest income and wealth build up; has low tolerance towards risk; slightly higher risk profile as compared to the ‘Very low risk’ investor.</td>
+                <td>Equity: 10–30%<br>Debt and cash: 70–90%</td>
+              </tr>
+              <tr data-band="medium risk">
+                <td>Medium risk</td>
+                <td>Medium level of risk capacity and tolerance; can take on risk but not too much due to financial obligations and/or modest income and wealth build up; has low-medium tolerance towards risk; higher risk profile as compared to the ‘Low risk’ investor.</td>
+                <td>Equity: 40–60%<br>Debt and cash: 40–60%</td>
+              </tr>
+              <tr data-band="high risk">
+                <td>High risk</td>
+                <td>High level of risk capacity and tolerance; can take on risk; financial obligations are taken care of; has good income and wealth build up; has medium-high tolerance towards risk; higher risk profile as compared to the ‘Medium risk’ investor.</td>
+                <td>Equity: 70–90%<br>Debt and cash: 10–30%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="next">
+          <div class="nextCard">
+            <div class="t"><span class="pill">1</span><h3>Review</h3></div>
+            <p>We review your assessment alongside goals, horizon and liquidity needs.</p>
+          </div>
+          <div class="nextCard">
+            <div class="t"><span class="pill">2</span><h3>Discussion</h3></div>
+            <p>We connect with you to discuss the suitable strategy and allocation framework.</p>
+          </div>
+          <div class="nextCard">
+            <div class="t"><span class="pill">3</span><h3>Next steps</h3></div>
+            <p>We outline the recommended path for implementation, aligned to suitability.</p>
+          </div>
+        </div>
+
+        <footer>
+          <div>© <span id="year"></span> Goalchi Capital Services LLP</div>
+          <div>Confidential</div>
+        </footer>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <footer>© 2016-2026 Goalchi Capital Services LLP • Confidential Client Assessment</footer>
-</main>
+  <script>
+    (function(){
+      const yearEl = document.getElementById("year");
+      yearEl.textContent = String(new Date().getFullYear());
 
-<script>
-  function setDonut(eqMid, debtMid, goldMid){
-    const total = (eqMid + debtMid + goldMid) || 100;
-    const e = (eqMid/total) * 100;
-    const d = (debtMid/total) * 100;
-    const donut = document.getElementById("donut");
-    donut.style.background =
-      `conic-gradient(var(--navy) 0 ${e}%, var(--slate) ${e}% ${e+d}%, var(--gold) ${e+d}% 100%)`;
-  }
+      const toggleBtn = document.getElementById("toggleResults");
+      const panel = document.getElementById("resultsPanel");
 
-  function safeText(v){ return (v == null || v === "") ? "—" : String(v); }
+      const bandEl = document.getElementById("riskBand");
+      const scoreEl = document.getElementById("score");
 
-  try{
-    const sub = JSON.parse(sessionStorage.getItem("riskProfilerSubmissionPremium") || "null");
-    if(sub){
-      const clientName = safeText(sub.clientName);
-      document.getElementById("name").textContent = clientName;
-      document.getElementById("ref").textContent = safeText(sub.submissionId);
-      document.getElementById("band").textContent = safeText(sub.band);
-      document.getElementById("score").textContent = safeText(sub.score100);
-
-      // Personalize header
-      if (sub.clientName) {
-        document.getElementById("title").textContent = `Thank you, ${sub.clientName}.`;
+      function norm(s){
+        return String(s || "").trim().toLowerCase();
       }
 
-      const eq = sub.allocation?.equity?.join("–") || "—";
-      const debt = sub.allocation?.debt?.join("–") || "—";
-      const gold = sub.allocation?.gold?.join("–") || "—";
+      function pickFromSession(keys){
+        for (const k of keys){
+          const v = window.sessionStorage.getItem(k);
+          if (v && String(v).trim()) return String(v).trim();
+        }
+        return "";
+      }
 
-      document.getElementById("eq").textContent = eq + "%";
-      document.getElementById("debt").textContent = debt + "%";
-      document.getElementById("gold").textContent = gold + "%";
+      // Try multiple keys to be resilient to earlier versions
+      const riskBand = pickFromSession(["riskBand","band","risk_profile_band","rp_band"]);
+      const score = pickFromSession(["totalScore","score","rp_score","riskScore"]);
 
-      const eqMid = sub.allocation?.equity ? (sub.allocation.equity[0] + sub.allocation.equity[1]) / 2 : 0;
-      const debtMid = sub.allocation?.debt ? (sub.allocation.debt[0] + sub.allocation.debt[1]) / 2 : 0;
-      const goldMid = sub.allocation?.gold ? (sub.allocation.gold[0] + sub.allocation.gold[1]) / 2 : 0;
-      setDonut(eqMid, debtMid, goldMid);
-    }
-  }catch(e){}
-</script>
+      bandEl.textContent = riskBand || "—";
+      scoreEl.textContent = score || "—";
+
+      // Highlight matching row if possible
+      const rows = document.querySelectorAll("#allocBody tr[data-band]");
+      const b = norm(riskBand);
+      if (b){
+        rows.forEach(r => {
+          r.classList.remove("isSelected");
+          if (b.includes(r.getAttribute("data-band"))) r.classList.add("isSelected");
+        });
+      }
+
+      toggleBtn.addEventListener("click", function(){
+        const isOpen = panel.classList.toggle("show");
+        toggleBtn.textContent = isOpen ? "Hide your risk profile summary" : "View your risk profile summary";
+        if (isOpen) {
+          panel.scrollIntoView({behavior:"smooth", block:"start"});
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
