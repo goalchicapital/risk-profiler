@@ -1,11 +1,516 @@
+<!-- =========================================================
+File: risk-profiler.html
+Premium landing page (brand accents + contact + expanded FAQs)
+========================================================= -->
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0; url=risk-profiler.html" />
-    <title>Redirecting…</title>
-  </head>
-  <body>
-    Redirecting… <a href="risk-profiler.html">Continue</a>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Risk Profiling | Goalchi Capital</title>
+  <style>
+    :root{
+      --navy:#0b2d5b;
+      --navy2:#0f3d78;
+      --gold:#c9a227;
+      --red:#c21f2a;
+
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --border:#e5e7eb;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+
+    header{background:#fff;border-bottom:1px solid var(--border)}
+    .header-inner{
+      max-width:1100px;margin:0 auto;padding:14px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:16px
+    }
+    .brand-left{display:flex;align-items:center;gap:12px}
+    .brand-left img{height:34px;width:auto;display:block}
+    .brand-left .t{display:flex;flex-direction:column;gap:2px}
+    .brand-left b{font-size:14px;letter-spacing:.2px}
+    .brand-left span{font-size:12px;color:var(--muted)}
+    .brand-right{font-weight:950;color:var(--navy);letter-spacing:.2px}
+
+    main{max-width:1100px;margin:28px auto 64px;padding:0 16px}
+    .shell{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .hero{
+      padding:28px 26px;
+      border-bottom:1px solid var(--border);
+      background:
+        radial-gradient(900px 260px at 18% 0%, rgba(11,45,91,.14), transparent 60%),
+        radial-gradient(900px 240px at 90% 10%, rgba(201,162,39,.14), transparent 55%),
+        #fff;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width: 900px){ .hero-grid{grid-template-columns:1fr;} }
+
+    h1{margin:0 0 10px;font-size:34px;letter-spacing:-.6px;line-height:1.12}
+    .lead{margin:0;color:var(--muted);max-width:72ch}
+
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;
+      border:1px solid var(--border);
+      background:#f8fafc;
+      font-weight:950;font-size:12px;color:#111827;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block}
+
+    .cta-card{
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+      padding:16px;
+      box-shadow:0 8px 20px rgba(15,23,42,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .cta-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(11,45,91,.05), rgba(201,162,39,.06));
+      pointer-events:none;
+    }
+    .cta-inner{position:relative}
+    .cta-title{font-weight:1000;margin:0 0 6px;color:var(--navy)}
+    .cta-sub{margin:0 0 12px;color:var(--muted);font-size:13px}
+
+    .btns{display:flex;flex-wrap:wrap;gap:10px}
+    a.btn{
+      text-decoration:none;
+      display:inline-flex;align-items:center;justify-content:center;
+      border-radius:12px;padding:12px 14px;font-weight:1000;font-size:14px;
+    }
+    .primary{
+      background:linear-gradient(180deg,var(--navy),#08244a);
+      color:#fff;
+      box-shadow:0 10px 18px rgba(11,45,91,.18);
+      min-width:200px;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .secondary{
+      background:linear-gradient(180deg,#f1f5f9,#e9eef6);
+      color:#111827;
+      border:1px solid var(--border);
+    }
+
+    .support{
+      margin-top:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px dashed rgba(11,45,91,.25);
+      background:rgba(11,45,91,.03);
+      color:#111827;
+      font-weight:900;
+      font-size:13px;
+    }
+    .support b{color:var(--navy)}
+    .support a{color:var(--navy2);text-decoration:none}
+    .support a:hover{text-decoration:underline}
+
+    .tiny{font-size:12px;color:var(--muted);margin-top:10px}
+
+    .section{padding:22px 26px}
+    .section h2{margin:0 0 10px;font-size:18px;letter-spacing:-.2px;color:var(--navy)}
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:12px;
+    }
+    @media (max-width: 950px){ .cards{grid-template-columns:1fr;} }
+    .card{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px 14px;
+      background:#fff;
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--navy),var(--gold));
+    }
+    .card b{display:block;margin-bottom:6px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+
+    .how{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:12px;
+    }
+    @media (max-width: 950px){ .how{grid-template-columns:1fr;} }
+    .step{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px 14px;
+      background:#f8fafc;
+    }
+    .num{
+      width:30px;height:30px;border-radius:10px;
+      display:inline-flex;align-items:center;justify-content:center;
+      background:#fff;border:1px solid var(--border);
+      font-weight:1000;color:var(--navy);
+      margin-bottom:8px;
+    }
+    .step b{display:block;margin-bottom:6px}
+    .step p{margin:0;color:var(--muted);font-size:13px}
+
+    .disclaimer{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* FAQ accordion */
+    .faq{margin-top:14px;display:grid;gap:10px}
+    details{
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+      padding:12px 14px;
+      box-shadow:0 6px 16px rgba(15,23,42,.04);
+    }
+    summary{
+      cursor:pointer;
+      list-style:none;
+      font-weight:1000;
+      color:#111827;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{
+      width:28px;height:28px;border-radius:10px;
+      border:1px solid var(--border);
+      display:inline-flex;align-items:center;justify-content:center;
+      color:var(--navy);
+      background:#f8fafc;
+      flex:0 0 auto;
+      font-weight:1000;
+    }
+    details[open] .chev{background:rgba(201,162,39,.12);border-color:rgba(201,162,39,.35)}
+    .faq p{margin:10px 0 0;color:var(--muted);font-size:13px}
+
+    footer{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
+  
+    /* FAQ section (premium dark panel) */
+.faqSection{
+  margin-top:18px;
+  padding:18px 18px;
+  border-radius:18px;
+  background:
+    radial-gradient(1200px 420px at 15% 0%, rgba(201,162,39,.18), rgba(201,162,39,0) 55%),
+    linear-gradient(180deg, rgba(11,45,91,1), rgba(7,24,48,1));
+  border:1px solid rgba(201,162,39,.28);
+  box-shadow: 0 10px 30px rgba(3,10,20,.25);
+  position:relative;
+  overflow:hidden;
+  color:#fff;
+}
+.faqSection:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,0) 35%),
+    radial-gradient(900px 260px at 85% 10%, rgba(15,61,120,.75), rgba(15,61,120,0) 60%);
+  pointer-events:none;
+  opacity:.55;
+}
+.faqSection > *{ position:relative; z-index:1; }
+.faqSection h2{
+  margin:0 0 8px;
+  color:#fff;
+  letter-spacing:.2px;
+  font-size:18px;
+}
+.faqSection .subtle{
+  color: rgba(255,255,255,.78);
+  margin:0 0 10px;
+  font-size:12px;
+}
+
+.faq details{
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  margin:8px 0;
+  overflow:hidden;
+  backdrop-filter: blur(6px);
+}
+.faq details:hover{ border-color: rgba(201,162,39,.35); }
+.faq summary{
+  padding:12px 14px;
+  cursor:pointer;
+  list-style:none;
+  font-weight:750;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.faq summary::-webkit-details-marker{display:none}
+
+.faq .chev{
+  width:26px;height:26px;border-radius:9px;
+  background: rgba(201,162,39,.14);
+  border: 1px solid rgba(201,162,39,.35);
+  display:flex;align-items:center;justify-content:center;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+  color: #fff;
+  flex:0 0 26px;
+  font-weight:900;
+}
+details[open] .chev{
+  transform: rotate(45deg);
+  background: rgba(201,162,39,.22);
+  border-color: rgba(201,162,39,.55);
+}
+.faq p{
+  margin: 0;
+  padding: 0 14px 14px;
+  color: rgba(255,255,255,.80);
+  font-size:12.5px;
+  line-height:1.55;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand-left">
+      <img src="assets/logo.png" alt="Goalchi Capital logo" />
+      <div class="t">
+        <b>Goalchi Capital</b>
+        <span>Risk Profiling & Suitability</span>
+      </div>
+    </div>
+    <div class="brand-right">Goalchi Capital Services LLP</div>
+  </div>
+</header>
+
+<main>
+  <div class="shell">
+    <div class="hero">
+      <div class="hero-grid">
+        <div>
+          <h1>Risk profiling that leads to the right asset allocation.</h1>
+          <p class="lead">
+            A robust portfolio starts with clarity: how much risk you <b>can</b> take (capacity) and how much risk you’re
+            <b>comfortable</b> taking (tolerance). This assessment supports suitability and helps align allocation to time horizon,
+            liquidity needs and behaviour during market stress.
+          </p>
+
+          <div class="pill-row">
+            <div class="pill"><span class="dot"></span> ~3–4 minutes</div>
+            <div class="pill"><span class="dot"></span> Confidential</div>
+            <div class="pill"><span class="dot"></span> Report emailed to you</div>
+            <div class="pill"><span class="dot"></span> Discussion call</div>
+          </div>
+        </div>
+
+        <div class="cta-card">
+          <div class="cta-inner">
+            <p class="cta-title">Begin Risk Assessment</p>
+            <p class="cta-sub">
+              You’ll receive an indicative risk band and a suggested long-term allocation (equity / debt / alternatives).
+            </p>
+            <div class="btns">
+              <a class="btn primary" href="index-premium.html">Begin Risk Assessment</a>
+</div>
+
+            <div class="support">
+              <b>Need help?</b> Contact our Team at
+              <a href="tel:+918427132300">+91 8427132300</a>
+              for any support in filling this Risk Profiler form.
+            </div>
+
+            <div class="tiny">
+              The indicative allocation is a suitability guide. Final implementation depends on objectives, constraints and cashflows.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Why risk profiling matters</h2>
+      <div class="cards">
+        <div class="card">
+          <b>Designed for real-world behaviour</b>
+          <p>Risk profiling helps set an allocation you can stay invested with across market cycles—especially during volatility.</p>
+        </div>
+        <div class="card">
+          <b>Aligned to horizon and liquidity</b>
+          <p>Time horizon and cash needs influence how much volatility a portfolio can absorb without disruption to goals.</p>
+        </div>
+        <div class="card">
+          <b>Structured suitability framework</b>
+          <p>A documented profile supports suitability discussions and creates a disciplined basis for periodic reviews.</p>
+        </div>
+      </div>
+
+      <div class="how">
+        <div class="step">
+          <div class="num">1</div>
+          <b>We assess capacity & tolerance</b>
+          <p>Capacity reflects ability to take risk. Tolerance reflects comfort with volatility and drawdowns.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <b>We map to an indicative risk band</b>
+          <p>Your responses translate to a structured band with guardrails (e.g., short horizon caps excessive risk).</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <b>We generate an indicative allocation</b>
+          <p>We provide allocation ranges across equity, fixed income and alternatives aligned to your risk band.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <b>We discuss next steps</b>
+          <p>We review objectives and constraints and then outline the best way to proceed.</p>
+        </div>
+      </div>
+
+      <section class="faqSection">
+      <h2>FAQs</h2>
+      <div class="faq">
+        <details>
+          <summary>What is risk profiling? <span class="chev">+</span></summary>
+          <p>
+            Risk profiling is a structured assessment used to understand your ability and comfort to take investment risk.
+            It helps align an asset allocation to your investment horizon, liquidity needs and behaviour in market volatility.
+          </p>
+        </details>
+
+        <details>
+          <summary>Why is risk profiling important? <span class="chev">+</span></summary>
+          <p>
+            The right allocation is not only about return expectations—it’s about staying invested through market cycles.
+            A suitable risk profile reduces the likelihood of reactive decisions during market drawdowns.
+          </p>
+        </details>
+
+        <details>
+          <summary>How long does the assessment take? <span class="chev">+</span></summary>
+          <p>Typically 3–4 minutes. Please answer based on your general comfort with volatility and your expected time horizon.</p>
+        </details>
+
+        <details>
+          <summary>How is the score calculated? <span class="chev">+</span></summary>
+          <p>
+            The score is derived from your responses across two dimensions: (1) <b>risk capacity</b> (time horizon, liquidity and ability
+            to sustain volatility) and (2) <b>risk tolerance</b> (comfort with drawdowns and market fluctuations).
+            Suitability guardrails may be applied so the indicative outcome remains aligned to near-term liquidity needs and investment horizon.
+          </p>
+        </details>
+
+        <details>
+          <summary>What will Goalchi Capital do with my risk profiling score? <span class="chev">+</span></summary>
+          <p>
+            We use the score to create an indicative risk band and an indicative long-term allocation range.
+            This supports a suitability discussion and helps structure next steps (for example, aligning the allocation to time horizon and liquidity needs).
+          </p>
+        </details>
+
+        <details>
+          <summary>Will I receive my results and report? <span class="chev">+</span></summary>
+          <p>
+            Yes. You’ll see an indicative risk band and allocation after submission, and a PDF report is emailed to you for your records.
+          </p>
+        </details>
+
+        <details>
+          <summary>Is my data safe? <span class="chev">+</span></summary>
+          <p>
+            We treat responses as confidential and use them only for suitability and client communication.
+            Access is restricted to authorized team members and the report is shared via email for your reference.
+          </p>
+        </details>
+
+        <details>
+          <summary>Does this determine my final portfolio? <span class="chev">+</span></summary>
+          <p>
+            No. This is an indicative suitability guide. Any final portfolio implementation depends on objectives, constraints,
+            cashflows and product suitability.
+          </p>
+        </details>
+
+        <details>
+          <summary>What happens after I submit? <span class="chev">+</span></summary>
+          <p>
+            You’ll receive your report by email. We then schedule a discussion call to confirm objectives, horizon, liquidity needs
+            and any constraints before proceeding further.
+          </p>
+        </details>
+
+        <details>
+          <summary>What if I’m unsure about an answer? <span class="chev">+</span></summary>
+          <p>Choose what best reflects your likely behaviour during volatility. If needed, call +91 8427132300 for assistance.</p>
+        </details>
+      </div>
+    </section>
+
+      <div class="disclaimer">
+        <b>Disclaimer:</b>
+        This risk profiling assessment is for suitability and informational purposes only and does not constitute investment advice or a recommendation.
+        Outcomes are indicative and may be supplemented with additional information.
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2026 Goalchi Capital Services LLP • Confidential Client Assessment</footer>
+</main>
+
+<script>
+  document.querySelectorAll("details").forEach(d => {
+    d.addEventListener("toggle", () => {
+      const chev = d.querySelector(".chev");
+      if (!chev) return;
+      chev.textContent = d.open ? "×" : "+";
+    });
+  });
+</script>
+</body>
 </html>
